@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Задача</title>
+    <link href="/styles/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<form accept-charset="utf-8" action="#" id="create-form" th:action="@{/task/{id}(id=${task.id})}" th:method="post"
+      th:object="${task}">
+    <h3>Задача:</h3>
+
+    <div class="row">
+        <label for="id">ID:</label>
+        <input id="id" readonly th:field="*{id}" type="text"/>
+    </div>
+
+    <div class="row">
+        <label for="name">Название:</label>
+        <input id="name" th:field="*{name}" type="text"/>
+    </div>
+
+    <div class="row">
+        <label for="datefrom">Дата начала:</label>
+        <input id="datefrom" th:field="*{dateFrom}" type="date"/>
+    </div>
+
+    <div class="row">
+        <label for="dateTo">Дата окончания:</label>
+        <input id="dateTo" th:field="*{dateTo}" type="date"/>
+    </div>
+
+    <div class="row">
+        <label for="planhours">Планируемое количество часов:</label>
+        <input id="planhours" th:field="*{planHours}" type="text"/>
+    </div>
+    <div class="row">
+        <label for="users">Участники:</label>
+        <table id="users">
+            <tbody>
+            <tr th:if="*{#lists.isEmpty(users)}">
+                <td colspan="1">Нет участников</td>
+            </tr>
+            <tr th:each="user, userStat : *{users}">
+                <td>
+                    <select th:field="*{users[__${userStat.index}__].id}">
+                        <option value="">Не выбран</option>
+                        <option th:each="var : ${allUsers}"
+                                th:text="${var}"
+                                th:value="${var.id}"></option>
+                    </select>
+                </td>
+                <td>
+                    <button name="removeUser" th:value="${userStat.index}" type="submit">Удалить</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button name="addUser" type="submit">Добавить</button>
+    </div>
+
+    <div class="row">
+        <button name="saveTask" type="submit">Сохранить</button>&nbsp;
+        <span th:unless="*{id == null}">
+            <button name="deleteTask" type="submit">Удалить задачу</button>
+        </span>
+    </div>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Утверждение часов</title>
+    <link href="/styles/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h3>Утверждение часов</h3>
+<form accept-charset="utf-8" action="#" id="timesheets" th:action="@{/timesheets}"
+      th:method="post" th:object="${timesheets}">
+
+    <div class="row">
+        <table id="timesheets">
+            <tbody>
+            <tr th:if="*{#lists.isEmpty(timeSheets)}">
+                <td colspan="5">Нет новых часов для утверждения</td>
+            </tr>
+            <tr th:unless="*{#lists.isEmpty(timeSheets)}">
+                <td>Дата</td>
+                <td>Пользователь</td>
+                <td>Задача</td>
+                <td>Затраченные часы</td>
+                <td>Утвержденные часы</td>
+            </tr>
+            <tr th:each="timesheet, timeStat: *{timeSheets}">
+                <td>
+                    <span id="date" th:text="*{timeSheets[__${timeStat.index}__].id.date}" type="date"/>
+                    <input th:field="*{timeSheets[__${timeStat.index}__].id.date}" th:type="hidden" type="date"/>
+                </td>
+                <td>
+                    <span id="user" th:text="*{timeSheets[__${timeStat.index}__].id.user.name}" type="text"/>
+                    <input th:field="*{timeSheets[__${timeStat.index}__].id.user.id}" th:type="hidden" type="number"/>
+                </td>
+                <td>
+                    <span id="task" th:text="*{timeSheets[__${timeStat.index}__].id.task.name}" type="text"/>
+                    <input th:field="*{timeSheets[__${timeStat.index}__].id.task.id}" th:type="hidden" type="number"/>
+                </td>
+                <td>
+                    <span id="hours" th:text="*{timeSheets[__${timeStat.index}__].hours}" type="number"/>
+                    <input th:field="*{timeSheets[__${timeStat.index}__].hours}" th:type="hidden" type="number"/>
+                </td>
+                <td>
+                    <input th:field="*{timeSheets[__${timeStat.index}__].approvedHours}" type="number"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="row" th:unless="*{#lists.isEmpty(timeSheets)}">
+        <button name="save" type="submit">Сохранить</button>
+        <button name="approveAll" type="submit">Утвердить все</button>
+    </div>
+</form>
+
+</body>
+</html>
