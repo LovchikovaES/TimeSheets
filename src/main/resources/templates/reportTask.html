@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Отчёт по задачам</title>
+    <link href="/styles/styles.css" rel="stylesheet" type="text/css">
+    <script>
+        function showReportForTask(url, nameControl) {
+            const valueControl = document.getElementById(nameControl);
+            const fullUrl = url + (valueControl? (encodeURIComponent(valueControl.value)) : '');;
+            window.location = fullUrl;
+        }
+
+
+    </script>
+</head>
+<body>
+<h3>Отчёт по задачам</h3>
+<form accept-charset="utf-8" action="#" id="create-form" th:action="@{/report_task}"
+      th:method="post" th:object="${reportTask}">
+
+    <div class="row">
+        <label for="taskToSelect">Задача:</label>
+        <select id="taskToSelect" onchange="showReportForTask('/report_task?task=', 'taskToSelect');"
+                th:field="*{taskId}">
+            <option value="">Не выбрана</option>
+            <option th:each="task : ${allTasks}"
+                    th:text="${task.name}"
+                    th:value="${task.id}"></option>
+        </select>
+    </div>
+    <br>
+
+    <div class="row" th:unless="${selectedTask} == null">
+        Задача: <span th:text="${selectedTask.name}"/><br>
+        Сроки задачи: c <span th:text="${#temporals.format(selectedTask.dateFrom, 'dd.MM.yyyy')}"/> по <span
+            th:text="${#temporals.format(selectedTask.dateTo, 'dd.MM.yyyy')}"/><br>
+        Планируемая трудоёмкость в часах: <span th:text="${selectedTask.planHours}"/>
+    </div>
+    <br>
+    <table>
+        <tr th:unless="*{#lists.isEmpty(userApprovedHours)}">
+            <td>Пользователь</td>
+            <td>Затраченные часы</td>
+        </tr>
+        <tr th:each="entity : *{userApprovedHours}">
+            <td><span th:text="${entity.lastName}"/> <span th:text="${entity.firstName}"/></td>
+            <td align="center"><span th:text="${entity.ApprovedHours}"/></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

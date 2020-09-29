@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Функционал</title>
@@ -12,6 +12,6 @@
 <a th:href="@{/task/list}">Задачи</a><br><br>
 <a th:href="@{/workday?date=}">Заполнение времени по задачам</a><br><br>
 <a th:href="@{/timesheets}">Утверждение часов</a><br><br>
-<a th:href="@{/report_task}">Отчет по задачам</a><br><br>
+<a th:href="@{/report_task/?task=}">Отчет по задачам</a><br><br>
 </body>
 </html>
