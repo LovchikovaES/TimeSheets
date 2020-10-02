@@ -6,7 +6,6 @@ public class CurrentUser {
     private static User user;
 
     private CurrentUser() {
-
     }
 
     public static User get() {

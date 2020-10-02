@@ -13,13 +13,14 @@ import ru.catn.core.repositories.RoleRepository;
 import ru.catn.core.repositories.UserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
 public class UserController {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    final private UserRepository userRepository;
+    final private RoleRepository roleRepository;
 
     public UserController(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
@@ -46,13 +47,18 @@ public class UserController {
 
     @GetMapping("/user/edit/{id}")
     public String showUserById(Model model, @PathVariable(name = "id") Integer id) {
-        model.addAttribute("user", userRepository.findById(id));
-        return "user";
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            model.addAttribute("user", user.get());
+            return "user";
+        } else {
+            return "error";
+        }
     }
 
     @GetMapping("/user/delete/{id}")
     public RedirectView userDelete(Model model, @PathVariable(name = "id") Integer id) {
-        var user = userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             userRepository.delete(user.get());
             return new RedirectView("/user/list", true);

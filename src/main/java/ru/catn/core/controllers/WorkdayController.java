@@ -18,13 +18,15 @@ import ru.catn.core.repositories.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class WorkdayController {
 
-    private TimeSheetRepository timeSheetRepository;
-    private UserRepository userRepository;
+    final private TimeSheetRepository timeSheetRepository;
+    final private UserRepository userRepository;
 
     private List<TimeSheet> removedTimeSheets = new ArrayList<>();
 
@@ -43,18 +45,21 @@ public class WorkdayController {
             workDate = LocalDate.parse(date);
         }
 
-        User user = userRepository.findById(CurrentUser.get().getId()).get();
-        var timeSheets = timeSheetRepository.findByIdUserIdAndIdDate(user.getId(), workDate);
+        Optional<User> user = userRepository.findById(CurrentUser.get().getId());
+        if (user.isEmpty()) {
+            return "error";
+        }
+        var timeSheets = timeSheetRepository.findByIdUserIdAndIdDate(user.get().getId(), workDate);
 
-        if (timeSheets.size() == 0) {
+        if (timeSheets.isEmpty()) {
             var newTimeSheet = new TimeSheet();
             var newTimeSheetId = new TimeSheetId();
             newTimeSheetId.setDate(workDate);
-            newTimeSheetId.setUser(user);
+            newTimeSheetId.setUser(user.get());
             newTimeSheet.setId(newTimeSheetId);
             timeSheets.add(newTimeSheet);
         }
-        model.addAttribute("workday", new Workday(timeSheets, workDate, user));
+        model.addAttribute("workday", new Workday(timeSheets, workDate, user.get()));
         return "workday";
     }
 
@@ -66,7 +71,7 @@ public class WorkdayController {
 
     @PostMapping(path = "/workday", params = "removeTask")
     public String removeTask(final Workday workday, final HttpServletRequest req) {
-        final int rowId = Integer.valueOf(req.getParameter("removeTask"));
+        final int rowId = Integer.parseInt(req.getParameter("removeTask"));
         this.removedTimeSheets.add(workday.getTimeSheets().get(rowId));
         workday.removeTimeSheet(rowId);
         return "workday";
@@ -92,7 +97,7 @@ public class WorkdayController {
         if (user.isPresent()) {
             return user.get().getTasks();
         } else {
-            return new ArrayList<>();
+            return Collections.emptyList();
         }
     }
 }

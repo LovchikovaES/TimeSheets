@@ -19,8 +19,8 @@ import java.util.Optional;
 
 @Controller
 public class TaskController {
-    private TaskRepository taskRepository;
-    private UserRepository userRepository;
+    final private TaskRepository taskRepository;
+    final private UserRepository userRepository;
 
     public TaskController(TaskRepository taskRepository, UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -58,7 +58,7 @@ public class TaskController {
 
     @PostMapping(path = "/task/*", params = "removeUser")
     public String removeUser(final Task task, final HttpServletRequest req) {
-        final int rowId = Integer.valueOf(req.getParameter("removeUser"));
+        final int rowId = Integer.parseInt(req.getParameter("removeUser"));
         task.deleteUser(rowId);
         return "task";
     }

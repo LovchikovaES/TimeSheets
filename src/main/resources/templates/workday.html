@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>Заполнение рабочего времени</title>
     <link href="/styles/styles.css" rel="stylesheet" type="text/css">
     <script language="JavaScript" type="text/javascript">
         function onChangeDate(element) {
-        var newDate = element.value;
-            console.log('The new value is: '+newDate);
-            window.location = 'timesheets?date='+newDate;
+            var newDate = element.value;
+            window.location = 'workday?date=' + newDate;
         }
-
-
 
     </script>
 </head>

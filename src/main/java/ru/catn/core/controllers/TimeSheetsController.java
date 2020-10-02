@@ -11,7 +11,7 @@ import ru.catn.core.repositories.TimeSheetRepository;
 @Controller
 public class TimeSheetsController {
 
-    private TimeSheetRepository timeSheetRepository;
+    final private TimeSheetRepository timeSheetRepository;
 
     public TimeSheetsController(TimeSheetRepository timeSheetRepository) {
         this.timeSheetRepository = timeSheetRepository;
