@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Задачи</title>
+    <link href="/styles/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h3>Задачи</h3>
+<table class="tasks" id="minimalist-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Дата начала</th>
+        <th>Дата завершения</th>
+        <th>Планируемое количество часов</th>
+        <th>Участники</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${tasks}">
+        <td>
+            <a th:href="@{/task/} + ${task.id}" th:text="${task.id}"/>
+        </td>
+        <td th:text="${task.name}"></td>
+        <td th:text="${#temporals.format(task.dateFrom, 'dd.MM.yyyy')}"></td>
+        <td th:text="${#temporals.format(task.dateTo, 'dd.MM.yyyy')}"></td>
+        <td th:text="${task.planHours}"></td>
+        <td th:text="${task.users}"></td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/task/create}">Новая задача</a>
+
+</body>
+</html>

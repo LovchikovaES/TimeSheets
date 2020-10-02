@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Функционал</title>
+    <link href="/styles/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<h3>Функционал</h3>
+
+<a th:href="@{/user/list}">Пользователи</a><br><br>
+<a th:href="@{/task/list}">Задачи</a><br><br>
+<a th:href="@{/workday?date=}">Заполнение времени по задачам</a><br><br>
+<a th:href="@{/timesheets}">Утверждение часов</a><br><br>
+<a th:href="@{/report_task}">Отчет по задачам</a><br><br>
+</body>
+</html>

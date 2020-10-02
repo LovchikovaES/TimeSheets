@@ -1,0 +1,53 @@
+        body {
+            font-family: lucida sans unicode,lucida grande,Sans-Serif;
+            padding: 30px;
+            font-size: 14px;
+            color: #002b80;
+        }
+
+        a {
+            color: #002b80;
+        }
+
+        #minimalist-table {
+            font-size: 14px;
+            background: #fff;
+            width: 750px;
+            border-collapse: collapse;
+            text-align: left;
+            margin: 20px;
+        }
+
+        #minimalist-table th {
+            font-size: 15px;
+            font-weight: 400;
+            color: #039;
+            border-bottom: 2px solid #6678b1;
+            padding: 10px 8px;
+        }
+
+        #minimalist-table td {
+            color: #669;
+            padding: 9px 8px 0;
+        }
+
+                label {
+                    display: inline-block;
+                    width: 100px;
+                }
+
+                input:read-only {
+                    background: lightgray;
+                }
+
+                input {
+                    width: 200px;
+                }
+
+                select {
+                    width: 208px;
+                }
+
+                .row {
+                    margin-top: 10px;
+                }

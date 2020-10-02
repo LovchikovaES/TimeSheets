@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Заполнение рабочего времени</title>
+    <link href="/styles/styles.css" rel="stylesheet" type="text/css">
+    <script language="JavaScript" type="text/javascript">
+        function onChangeDate(element) {
+        var newDate = element.value;
+            console.log('The new value is: '+newDate);
+            window.location = 'timesheets?date='+newDate;
+        }
+
+
+
+    </script>
+</head>
+<body>
+<form accept-charset="utf-8" action="#" id="workday" th:action="@{/workday?date={date}(date=${workday.date})}"
+      th:method="post" th:object="${workday}">
+    <h3>Заполнение рабочего времени:</h3>
+
+    <div class="row">
+        <label for="date">Дата:</label>
+        <input id="date" onchange="onChangeDate(this);" th:field="*{date}" type="date"/>
+    </div>
+
+    <div class="row">
+        <label>Пользователь:</label>
+        <span id="user" th:text="*{user.name}" type="text"/>
+        <input th:field="*{user.id}" th:type="hidden" type="number"/>
+        <input th:field="*{user.firstName}" th:type="hidden" type="text"/>
+        <input th:field="*{user.lastName}" th:type="hidden" type="text"/>
+    </div>
+
+    <div class="row">
+        <table id="tasks">
+            <tbody>
+            <tr>
+                <td>Задача</td>
+                <td>Затраченные часы</td>
+                <td>Утвержденные часы</td>
+                <td></td>
+            </tr>
+            <tr th:each="timesheet, timeStat: *{timeSheets}">
+                <td>
+                    <select th:field="*{timeSheets[__${timeStat.index}__].id.task.id}">
+                        <option value="">Не выбрана</option>
+                        <option th:each="var : ${allUserTasks}"
+                                th:text="${var.name}"
+                                th:value="${var.id}"></option>
+                    </select>
+                </td>
+                <td>
+                    <input th:field="*{timeSheets[__${timeStat.index}__].hours}" type="number"/>
+                    <input th:field="*{timeSheets[__${timeStat.index}__].id.user.id}" th:type="hidden" type="number"/>
+                    <input th:field="*{timeSheets[__${timeStat.index}__].id.date}" th:type="hidden" type="date"/>
+                </td>
+                <td>
+                    <input readonly th:field="*{timeSheets[__${timeStat.index}__].approvedHours}" type="number"/>
+                </td>
+                <td>
+                    <button name="removeTask" th:value="${timeStat.index}" type="submit">Удалить</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button name="addTask" type="submit">Добавить</button>
+    </div>
+
+    <div class="row">
+        <button name="save" type="submit">Сохранить</button>
+    </div>
+</form>
+
+</body>
+</html>

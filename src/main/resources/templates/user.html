@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Пользователь</title>
+    <link href="/styles/styles.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<form accept-charset="utf-8" id="create-form" th:action="@{/user/save}" th:method="post" th:object="${user}">
+    <h3>Пользователь:</h3>
+
+    <div class="row">
+        <label for="id">ID:</label>
+        <input id="id" readonly th:field="*{id}" type="text"/>
+    </div>
+
+    <div class="row">
+        <label for="firstname">Имя:</label>
+        <input id="firstname" th:field="*{firstName}" type="text"/>
+    </div>
+
+    <div class="row">
+        <label for="lastname">Фамилия:</label>
+        <input id="lastname" th:field="*{lastName}" type="text"/>
+    </div>
+
+    <div class="row">
+        <label for="login">Логин:</label>
+        <input id="login" th:field="*{login}" type="text"/>
+    </div>
+
+    <div class="row">
+        <label for="password">Пароль:</label>
+        <input id="password" th:field="*{password}"/>
+    </div>
+
+    <div class="row">
+        <label for="role">Роль:</label>
+        <select id="role" th:field="*{role}">
+            <option value="">Не выбрана</option>
+            <option th:each="role : ${allRoles}"
+                    th:text="${role}"
+                    th:value="${role.id}"></option>
+        </select>
+    </div>
+
+    <div class="row">
+        <button type="submit">Сохранить</button>
+    </div>
+
+    <span th:unless="${id == null}">
+        <div class="row">
+            <a th:href="@{/user/delete/{id}(id=${id})}">Удалить пользователя</a>
+        </div>
+    </span>
+</form>
+
+</body>
+</html>
